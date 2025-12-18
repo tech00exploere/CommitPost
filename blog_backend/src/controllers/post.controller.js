@@ -1,8 +1,5 @@
 import Post from "../models/post.model.js";
 
-/**
- * CREATE POST
- */
 export const createPost = async (req, res) => {
   try {
     if (!req.user || !req.user._id) {
@@ -22,10 +19,6 @@ export const createPost = async (req, res) => {
   }
 };
 
-
-/**
- * GET ALL POSTS
- */
 export const getAllPosts = async (req, res) => {
   try {
     const posts = await Post.find()
@@ -38,9 +31,6 @@ export const getAllPosts = async (req, res) => {
   }
 };
 
-/**
- * GET POST BY ID
- */
 export const getPostById = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id).populate("user", "name");
@@ -51,9 +41,6 @@ export const getPostById = async (req, res) => {
   }
 };
 
-/**
- * UPDATE POST
- */
 export const updatePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
