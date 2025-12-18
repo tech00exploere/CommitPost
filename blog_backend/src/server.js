@@ -7,24 +7,39 @@ import authRoutes from "./routes/auth.routes.js";
 import postRoutes from "./routes/post.routes.js";
 import commentRoutes from "./routes/comment.routes.js";
 
-console.log(" server.js loaded");
-
 dotenv.config();
-console.log("dotenv loaded");
-
-await connectDB(); // force await
-console.log(" DB connected");
 
 const app = express();
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    process.env.CLIENT_URL,
+  ],
+  credentials: true,
+}));
 
-app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/posts", commentRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "OK" });
 });
+
+const PORT = process.env.PORT || 5000;
+
+connectDB()
+  .then(() => {
+    console.log("MongoDB connected");
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("MongoDB connection failed:", err.message);
+    process.exit(1);
+  });
+
