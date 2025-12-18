@@ -1,10 +1,6 @@
 import Comment from "../models/comment.model.js";
 import Post from "../models/post.model.js";
 
-/**
- * GET all comments for a post
- * GET /api/posts/:postId/comments
- */
 export const getComments = async (req, res) => {
   try {
     const { postId } = req.params;
@@ -19,10 +15,6 @@ export const getComments = async (req, res) => {
   }
 };
 
-/**
- * ADD a comment
- * POST /api/posts/:postId/comments
- */
 export const addComment = async (req, res) => {
   try {
     const { postId } = req.params;
