@@ -7,15 +7,15 @@ const connectDB = async () => {
     }
 
     const conn = await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      useNewUrlParser: true,      // ← deprecated
+      useUnifiedTopology: true,   // ← deprecated
     });
 
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error("MongoDB connection error:");
     console.error(error);
-    process.exit(1); 
+    process.exit(1);
   }
 };
 
