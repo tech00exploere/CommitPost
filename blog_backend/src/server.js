@@ -14,12 +14,13 @@ const app = express();
 app.use(
   cors({
     origin: (origin, callback) => {
+      // allow requests like Postman or server-side (no origin)
       if (!origin) return callback(null, true);
 
       const allowedOrigins = [
         "http://localhost:5173",
         process.env.CLIENT_URL,
-      ];
+      ].filter(Boolean); // removes undefined
 
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
@@ -30,6 +31,7 @@ app.use(
     credentials: true,
   })
 );
+
 
 app.use(express.json());
 
