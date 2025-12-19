@@ -10,19 +10,32 @@ import commentRoutes from "./routes/comment.routes.js";
 dotenv.config();
 
 const app = express();
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    process.env.CLIENT_URL,
-  ],
-  credentials: true,
-}));
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      const allowedOrigins = [
+        "http://localhost:5173",
+        process.env.CLIENT_URL,
+      ];
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);
-app.use("/api/posts", commentRoutes);
+app.use("/api/comments", commentRoutes);
 
 app.get("/api/health", (req, res) => {
   res.status(200).json({ status: "OK" });
@@ -35,7 +48,7 @@ connectDB()
     console.log("MongoDB connected");
 
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+      console.log(`🚀 Server running on port ${PORT}`);
     });
   })
   .catch((err) => {
