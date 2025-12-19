@@ -2,8 +2,7 @@ import mongoose from "mongoose";
 
 const connectDB = async () => {
   try {
-    // 🔍 TEMP DEBUG (REMOVE AFTER FIX)
-    console.log("MONGO_URI exists:", !!process.env.MONGO_URI);
+    console.log("🔍 MONGO_URI exists:", !!process.env.MONGO_URI);
 
     if (!process.env.MONGO_URI) {
       throw new Error("MONGO_URI is missing");
@@ -11,10 +10,12 @@ const connectDB = async () => {
 
     const conn = await mongoose.connect(process.env.MONGO_URI);
 
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error("MongoDB connection error:");
-    console.error(error);
+    console.error("❌ MongoDB connection error DETAILS ↓↓↓");
+    console.error("Name:", error.name);
+    console.error("Message:", error.message);
+    console.error("Stack:", error.stack);
     process.exit(1);
   }
 };
