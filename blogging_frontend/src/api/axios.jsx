@@ -2,25 +2,19 @@ import axios from "axios";
 
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  withCredentials: true, // 🔥 IMPORTANT
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// 🔐 Attach JWT
-API.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+// Attach JWT automatically
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
 
-// ❌ Global error handling
+// Global error logging
 API.interceptors.response.use(
   (response) => response,
   (error) => {
