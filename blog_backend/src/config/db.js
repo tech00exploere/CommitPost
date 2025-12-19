@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 
 const connectDB = async () => {
   try {
+    // 🔍 TEMP DEBUG (REMOVE AFTER FIX)
+    console.log("MONGO_URI exists:", !!process.env.MONGO_URI);
+
     if (!process.env.MONGO_URI) {
       throw new Error("MONGO_URI is missing");
     }
@@ -17,4 +20,3 @@ const connectDB = async () => {
 };
 
 export default connectDB;
-
