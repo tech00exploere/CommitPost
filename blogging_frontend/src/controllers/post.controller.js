@@ -3,7 +3,10 @@ import Post from "../models/Post.model.js";
 // GET all posts
 export const getPosts = async (req, res) => {
   try {
-    const posts = await Post.find().sort({ _id: -1 });
+    const posts = await Post.find()
+      .sort({ _id: -1 })
+      .populate("author", "name email"); // 🔥 populate
+
     res.json(posts);
   } catch (err) {
     res.status(500).json({ message: "Failed to fetch posts" });
@@ -13,7 +16,8 @@ export const getPosts = async (req, res) => {
 // GET single post
 export const getPostById = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id)
+      .populate("author", "name email");
 
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
@@ -33,10 +37,12 @@ export const createPost = async (req, res) => {
     const post = await Post.create({
       title,
       content,
-      author: req.user._id.toString(), // 🔑 KEY
+      author: req.user._id, // ✅ FIX
     });
 
-    res.status(201).json(post);
+    const populatedPost = await post.populate("author", "name email");
+
+    res.status(201).json(populatedPost);
   } catch (err) {
     res.status(500).json({ message: "Failed to create post" });
   }
@@ -51,8 +57,10 @@ export const updatePost = async (req, res) => {
       return res.status(404).json({ message: "Post not found" });
     }
 
-    if (post.author !== req.user._id.toString()) {
-      return res.status(403).json({ message: "You can only update your own posts" });
+    if (post.author.toString() !== req.user._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "You can only update your own posts" });
     }
 
     post.title = req.body.title || post.title;
@@ -74,8 +82,10 @@ export const deletePost = async (req, res) => {
       return res.status(404).json({ message: "Post not found" });
     }
 
-    if (post.author !== req.user._id.toString()) {
-      return res.status(403).json({ message: "You can only delete your own posts" });
+    if (post.author.toString() !== req.user._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "You can only delete your own posts" });
     }
 
     await post.deleteOne();
@@ -84,7 +94,4 @@ export const deletePost = async (req, res) => {
     res.status(500).json({ message: "Failed to delete post" });
   }
 };
-
-
-
 
