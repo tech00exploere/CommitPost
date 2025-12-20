@@ -29,10 +29,12 @@ export default function UpdatePost() {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        const postUserId =
-          typeof res.data.user === "object"
-            ? res.data.user?._id
-            : res.data.user;
+const postUserId =
+  typeof res.data.author === "object"
+    ? res.data.author?._id
+    : res.data.author;
+
+
 
         if (
           !currentUser ||
