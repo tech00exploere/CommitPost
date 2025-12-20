@@ -1,34 +1,19 @@
 import API from "../../api/axios";
 
-// Get all comments for a post
+// Get all comments
 export const getComments = async (postId) => {
-  try {
-    const res = await API.get(`/posts/${postId}/comments`);
-    return res.data; // array of comments
-  } catch (err) {
-    console.error("Get comments error:", err.response?.data || err.message);
-    throw err;
-  }
+  const res = await API.get(`/posts/${postId}/comments`);
+  return res.data;
 };
 
-// Add a new comment
+// Add comment (returns ONE comment)
 export const addComment = async (postId, text) => {
-  try {
-    const res = await API.post(`/posts/${postId}/comments`, { text });
-    return res.data; // updated comments array
-  } catch (err) {
-    console.error("Add comment error:", err.response?.data || err.message);
-    throw err;
-  }
+  const res = await API.post(`/posts/${postId}/comments`, { text });
+  return res.data;
 };
 
-// Delete a comment
+// Delete comment (returns deleted id)
 export const deleteComment = async (postId, commentId) => {
-  try {
-    const res = await API.delete(`/posts/${postId}/comments/${commentId}`);
-    return res.data; // updated comments array
-  } catch (err) {
-    console.error("Delete comment error:", err.response?.data || err.message);
-    throw err;
-  }
+  const res = await API.delete(`/posts/${postId}/comments/${commentId}`);
+  return res.data;
 };
