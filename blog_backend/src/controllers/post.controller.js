@@ -1,9 +1,9 @@
 import Post from "../models/Post.model.js";
 
-export const createPost = async (req, res) => {
+export const createPost = async(req, res)=>{
   try {
-    if (!req.user || !req.user._id) {
-      return res.status(401).json({ message: "Not authenticated" });
+    if (!req.user || !req.user._id){
+      return res.status(401).json({ message: "Not authenticated"});
     }
 
     const newPost = new Post({
@@ -14,38 +14,38 @@ export const createPost = async (req, res) => {
 
     const savedPost = await newPost.save();
     res.status(201).json(savedPost);
-  } catch (err) {
+  } catch (err){
     res.status(500).json({ message: err.message });
   }
 };
 
-export const getAllPosts = async (req, res) => {
-  try {
+export const getAllPosts = async(req, res)=>{
+  try{
     const posts = await Post.find()
       .populate("user", "name")
       .sort({ createdAt: -1 });
 
     res.json(posts);
-  } catch (err) {
+  }catch (err){
     res.status(500).json({ message: err.message });
   }
 };
 
-export const getPostById = async (req, res) => {
-  try {
+export const getPostById = async (req, res)=>{
+  try{
     const post = await Post.findById(req.params.id).populate("user", "name");
-    if (!post) return res.status(404).json({ message: "Post not found" });
+    if(!post) return res.status(404).json({ message: "Post not found"});
     res.json(post);
-  } catch (err) {
+  }catch (err){
     res.status(500).json({ message: err.message });
   }
 };
 
-export const updatePost = async (req, res) => {
-  try {
+export const updatePost = async (req, res)=>{
+  try{
     const post = await Post.findById(req.params.id);
-    if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+    if(!post){
+      return res.status(404).json({ message: "Post not found"});
     }
 
     // ownership check
