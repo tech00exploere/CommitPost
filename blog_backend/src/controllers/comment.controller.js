@@ -1,8 +1,8 @@
 import Comment from "../models/comment.model.js";
 import Post from "../models/Post.model.js";
 
-export const getComments = async (req, res) => {
-  try {
+export const getComments = async(req, res)=>{
+  try{
     const { postId } = req.params;
 
     const comments = await Comment.find({ post: postId })
@@ -10,22 +10,22 @@ export const getComments = async (req, res) => {
       .sort({ createdAt: -1 });
 
     res.status(200).json(comments);
-  } catch (error) {
-    res.status(500).json({ message: "Failed to fetch comments" });
+  }catch (error) {
+    res.status(500).json({ message: "Failed to fetch comments"});
   }
 };
 
-export const addComment = async (req, res) => {
+export const addComment = async(req, res) => {
   try {
     const { postId } = req.params;
     const { text } = req.body;
 
-    if (!text) {
+    if (!text){
       return res.status(400).json({ message: "Comment text is required" });
     }
 
     const post = await Post.findById(postId);
-    if (!post) {
+    if (!post){
       return res.status(404).json({ message: "Post not found" });
     }
 
@@ -38,7 +38,7 @@ export const addComment = async (req, res) => {
     const populatedComment = await comment.populate("author", "name");
 
     res.status(201).json(populatedComment);
-  } catch (error) {
+  } catch (error){
     res.status(500).json({ message: "Failed to add comment" });
   }
 };
