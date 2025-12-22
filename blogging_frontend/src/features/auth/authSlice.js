@@ -1,7 +1,7 @@
 // import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // import { loginUser, registerUser } from "./authAPI";
 
-// // ✅ SAFE localStorage parsing
+// //  SAFE localStorage parsing
 // const userFromStorage = localStorage.getItem("user");
 // const tokenFromStorage = localStorage.getItem("token");
 
@@ -21,7 +21,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { loginUser, registerUser } from "./authAPI";
 
-// SAFE localStorage helpers
 const getUserFromStorage = () => {
   try {
     const user = localStorage.getItem("user");
@@ -41,7 +40,7 @@ const getTokenFromStorage = () => {
 // Initial state
 const initialState = {
   user: getUserFromStorage(),
-  token: getTokenFromStorage(),
+  token: getTokenFromStorage(), 
   isLoading: false,
   isError: false,
   error: "",
