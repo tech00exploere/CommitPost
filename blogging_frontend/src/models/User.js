@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema(
 );
 export const currentUser = {
   _id: "u123",
-  name: "Priyanshu",
+  name: "Priyanshu"
   email: "test@example.com",
   token: "jwt-token-here", // from login
 };
