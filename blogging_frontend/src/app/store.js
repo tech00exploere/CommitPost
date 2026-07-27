@@ -9,7 +9,7 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
   },
-  preloadedState: {
+  preloadedState: {  
     auth: {
       user: user,
       token: token,
